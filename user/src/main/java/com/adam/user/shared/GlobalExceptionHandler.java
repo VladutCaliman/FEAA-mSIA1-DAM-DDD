@@ -20,4 +20,16 @@ import java.util.Map;
                         "message", ex.getMessage()
                 ));
     }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Map<String, String>> handleDataIntegrityViolation(
+            DataIntegrityViolationException ex) {
+
+        return ResponseEntity
+                .badRequest()
+                .body(Map.of(
+                        "error", "CREDENTIALS_ALREADY_EXIST",
+                        "message", "There is already an account associated with the specifiec email address or username."
+                ));
+    }
 }

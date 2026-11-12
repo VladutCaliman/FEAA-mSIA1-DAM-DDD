@@ -1,8 +1,9 @@
 package com.adam.user.domain;
 
 import lombok.Getter;
+import lombok.Setter;
 
-@Getter
+@Getter @Setter
 public class Profile {
     private String name;
     private String bio;

@@ -4,10 +4,11 @@ import com.adam.user.domain.enums.AccountRole;
 import com.adam.user.domain.enums.AccountStatus;
 import com.adam.user.domain.valueobject.Email;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 
-@Getter
+@Getter @Setter
 public class Account {
     private UUID id;
     private String username;

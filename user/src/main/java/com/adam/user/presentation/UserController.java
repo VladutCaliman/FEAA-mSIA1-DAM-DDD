@@ -1,7 +1,9 @@
 package com.adam.user.presentation;
 
+import com.adam.user.application.usecase.LoginUserUseCase;
 import com.adam.user.application.usecase.RegisterUserUseCase;
 import com.adam.user.domain.Account;
+import com.adam.user.presentation.dto.request.LoginInfoDTO;
 import com.adam.user.presentation.dto.request.RegisterInfoDTO;
 import com.adam.user.presentation.mapper.CommandMapper;
 import com.adam.user.shared.JWTService;
@@ -24,7 +26,9 @@ import java.time.Duration;
 public class UserController {
     @Autowired private CommandMapper mapper;
     @Autowired private JWTService jwts;
+
     @Autowired private RegisterUserUseCase registerUser;
+    @Autowired private LoginUserUseCase loginUser;
 
     @PostMapping("/register") public ResponseEntity<Void> register(
             @NotNull @Valid @RequestBody RegisterInfoDTO frontendAccountRegistrationInfo,
@@ -41,6 +45,24 @@ public class UserController {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
+                .body(null);
+    }
+
+    @PostMapping("/login") public ResponseEntity<Void> login(
+            @NotNull @Valid @RequestBody LoginInfoDTO frontendAccountLoginInfo,
+            HttpServletResponse response) {
+
+        Account retrievedAccount = loginUser.execute(
+                mapper.toCommand(frontendAccountLoginInfo)
+        );
+
+        response.addHeader(
+                HttpHeaders.SET_COOKIE,
+                createCookie(jwts.generateTokenFrom(retrievedAccount))
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
                 .body(null);
     }
 
