@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: user
+  datasource:
+    url: jdbc:sqlserver://localhost:14330;databaseName=test_ADAM_DB-user;encrypt=true;trustServerCertificate=true
+    username: ADAM_SSMS
+    password: ADAM_PASS
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+server:
+  port: 8080
+jwt:
+  secret: s4Uj6BJmEYZHhFraUXMHDTOTuN6H5Qv5hVfRhk7hhxM=
+  expiration: 3600000
