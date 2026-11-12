@@ -5,6 +5,7 @@ import com.adam.user.domain.repository.UserRepository;
 import com.adam.user.infrastructure.persistence.entity.AccountEntity;
 import com.adam.user.infrastructure.persistence.mapper.EntityMapper;
 import com.adam.user.infrastructure.persistence.repository.JpaUserRepository;
+import com.adam.user.shared.exception.InvalidCredentialsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -23,7 +24,7 @@ import org.springframework.stereotype.Repository;
     @Override public Account findByUsername(String username) {
         AccountEntity retrievedColumn =
                 repository.findByUsername(username)
-                        .orElseThrow(() -> new RuntimeException("No account found."));
+                        .orElseThrow(() -> new InvalidCredentialsException("No account found."));
 
         Account retrievedAccount = mapper.toDomain(retrievedColumn);
 

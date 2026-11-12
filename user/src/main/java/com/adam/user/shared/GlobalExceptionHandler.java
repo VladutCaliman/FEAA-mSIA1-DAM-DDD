@@ -1,5 +1,6 @@
 package com.adam.user.shared;
 
+import com.adam.user.shared.exception.InvalidCredentialsException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,6 +31,18 @@ import java.util.Map;
                 .body(Map.of(
                         "error", "CREDENTIALS_ALREADY_EXIST",
                         "message", "There is already an account associated with the specifiec email address or username."
+                ));
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidCredentials(
+            InvalidCredentialsException ex) {
+
+        return ResponseEntity
+                .badRequest()
+                .body(Map.of(
+                        "error", "INVALID_CREDENTIALS",
+                        "message", ex.getMessage()
                 ));
     }
 }

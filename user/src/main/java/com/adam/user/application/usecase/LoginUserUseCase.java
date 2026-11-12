@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service public class LoginUserUseCase {
-    @Autowired private DomainMapper mapper;
     @Autowired private UserRepository repository;
 
     public Account execute(LoginUserCommand userInformation) {
         Account retrievedAccount =
                 repository.findByUsername(userInformation.username());
+
 
         return retrievedAccount;
     }
