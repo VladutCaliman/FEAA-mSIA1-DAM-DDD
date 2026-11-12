@@ -12,7 +12,8 @@ import org.springframework.stereotype.Service;
     @Autowired private UserRepository repository;
 
     public Account execute(RegisterUserCommand userInformation) {
-        Account toBeRegisterdAccount = mapper.toDomain(userInformation);
+        Account toBeRegisterdAccount =
+                mapper.toDomain(userInformation);
 
         return repository.save(toBeRegisterdAccount);
     }

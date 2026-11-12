@@ -1,10 +1,8 @@
 package com.adam.user.infrastructure.persistence.mapper;
 
 import com.adam.user.domain.Account;
-import com.adam.user.domain.Profile;
 import com.adam.user.infrastructure.persistence.entity.AccountEntity;
 import com.adam.user.infrastructure.persistence.entity.EmailEmbeddable;
-import com.adam.user.infrastructure.persistence.entity.ProfileEntity;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -18,6 +16,7 @@ public interface EntityMapper {
     @Mapping(target = "profile", source = "profile")
     public Account toDomain(AccountEntity accountEntity);
 
+    //region Additional setup
     @AfterMapping default void setProfileAccountId(
             Account account,
             @MappingTarget AccountEntity accountEntity) {
@@ -29,4 +28,5 @@ public interface EntityMapper {
     default String map(EmailEmbeddable email) {
         return email == null ? null : email.getValue();
     }
+    //endregion
 }

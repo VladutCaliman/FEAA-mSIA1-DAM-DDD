@@ -3,10 +3,10 @@ package com.adam.user.presentation;
 import com.adam.user.application.usecase.LoginUserUseCase;
 import com.adam.user.application.usecase.RegisterUserUseCase;
 import com.adam.user.domain.Account;
+import com.adam.user.domain.TokenProvider;
 import com.adam.user.presentation.dto.request.LoginInfoDTO;
 import com.adam.user.presentation.dto.request.RegisterInfoDTO;
 import com.adam.user.presentation.mapper.CommandMapper;
-import com.adam.user.shared.JWTService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -25,7 +25,7 @@ import java.time.Duration;
 @RestController @RequestMapping("/auth")
 public class UserController {
     @Autowired private CommandMapper mapper;
-    @Autowired private JWTService jwts;
+    @Autowired private TokenProvider tokenizer;
 
     @Autowired private RegisterUserUseCase registerUser;
     @Autowired private LoginUserUseCase loginUser;
@@ -40,7 +40,7 @@ public class UserController {
 
         response.addHeader(
                 HttpHeaders.SET_COOKIE,
-                createCookie(jwts.generateTokenFrom(regiseredAccount))
+                createCookie(tokenizer.generateTokenFrom(regiseredAccount))
         );
 
         return ResponseEntity
@@ -58,7 +58,7 @@ public class UserController {
 
         response.addHeader(
                 HttpHeaders.SET_COOKIE,
-                createCookie(jwts.generateTokenFrom(retrievedAccount))
+                createCookie(tokenizer.generateTokenFrom(retrievedAccount))
         );
 
         return ResponseEntity

@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
     @Autowired private UserRepository repository;
 
     public Account execute(LoginUserCommand userInformation) {
-        return repository.findByUsername(userInformation.username());
+        Account retrievedAccount =
+                repository.findByUsername(userInformation.username());
+
+        return retrievedAccount;
     }
 }
