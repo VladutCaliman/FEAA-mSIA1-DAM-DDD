@@ -21,8 +21,7 @@ import java.util.UUID;
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    @Embedded
-    private EmailEmbeddable email;
+    @Embedded private EmailEmbeddable email;
 
     @Column(name = "password", nullable = false, unique = false)
     private String password;

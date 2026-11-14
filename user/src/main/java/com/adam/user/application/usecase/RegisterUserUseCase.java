@@ -5,15 +5,21 @@ import com.adam.user.application.mapper.DomainMapper;
 import com.adam.user.domain.Account;
 import com.adam.user.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service public class RegisterUserUseCase {
     @Autowired private DomainMapper mapper;
     @Autowired private UserRepository repository;
+    @Autowired private PasswordEncoder encoder;
 
     public Account execute(RegisterUserCommand userInformation) {
         Account toBeRegisterdAccount =
                 mapper.toDomain(userInformation);
+
+        toBeRegisterdAccount.setPassword(
+                encoder.encode(toBeRegisterdAccount.getPassword())
+        );
 
         return repository.save(toBeRegisterdAccount);
     }
