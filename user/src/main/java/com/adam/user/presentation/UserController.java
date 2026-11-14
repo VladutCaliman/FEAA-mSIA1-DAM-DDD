@@ -66,6 +66,7 @@ public class UserController {
                 .body(null);
     }
 
+    //region Non-API
     private String createCookie(String jwtoken) {
         ResponseCookie cookie = ResponseCookie
                 .from("access_token", jwtoken)
@@ -78,4 +79,5 @@ public class UserController {
 
         return cookie.toString();
     }
+    //endregion
 }
