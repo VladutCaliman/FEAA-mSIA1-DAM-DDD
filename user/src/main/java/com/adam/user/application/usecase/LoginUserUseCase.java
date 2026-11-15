@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
                 retrievedAccount.getPassword())
         ) throw new InvalidCredentialsException("Incorrect username or password. Please try again.");
 
-
         return retrievedAccount;
     }
 }

@@ -20,9 +20,8 @@ public interface EntityMapper {
     @AfterMapping default void setProfileAccountId(
             Account account,
             @MappingTarget AccountEntity accountEntity) {
-        if (accountEntity.getProfile() != null) {
+        if (accountEntity.getProfile() != null)
             accountEntity.getProfile().setAccountId(account.getId());
-        }
     }
 
     default String map(EmailEmbeddable email) {

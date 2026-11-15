@@ -22,12 +22,10 @@ import org.springframework.stereotype.Repository;
     }
 
     @Override public Account findByUsername(String username) {
-        AccountEntity retrievedColumn =
+        AccountEntity retrievedAccount =
                 repository.findByUsername(username)
                         .orElseThrow(() -> new InvalidCredentialsException("No account found."));
 
-        Account retrievedAccount = mapper.toDomain(retrievedColumn);
-
-        return retrievedAccount;
+        return mapper.toDomain(retrievedAccount);
     }
 }

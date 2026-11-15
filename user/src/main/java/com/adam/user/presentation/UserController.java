@@ -7,6 +7,8 @@ import com.adam.user.domain.TokenProvider;
 import com.adam.user.presentation.dto.request.LoginInfoDTO;
 import com.adam.user.presentation.dto.request.RegisterInfoDTO;
 import com.adam.user.presentation.mapper.CommandMapper;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -15,15 +17,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
 
-@RestController @RequestMapping("/auth")
+@RestController @RequestMapping("/user")
 public class UserController {
     @Autowired private CommandMapper mapper;
     @Autowired private TokenProvider tokenizer;
@@ -31,7 +29,7 @@ public class UserController {
     @Autowired private RegisterUserUseCase registerUser;
     @Autowired private LoginUserUseCase loginUser;
 
-    @PostMapping("/register") public ResponseEntity<Void> register(
+    @PostMapping("/auth/register") public ResponseEntity<Void> register(
             @NotNull @Valid @RequestBody RegisterInfoDTO frontendAccountRegistrationInfo,
             HttpServletResponse response) {
 
@@ -49,7 +47,7 @@ public class UserController {
                 .body(null);
     }
 
-    @PostMapping("/login") public ResponseEntity<Void> login(
+    @PostMapping("/auth/login") public ResponseEntity<Void> login(
             @NotNull @Valid @RequestBody LoginInfoDTO frontendAccountLoginInfo,
             HttpServletResponse response) {
 
@@ -67,8 +65,25 @@ public class UserController {
                 .body(null);
     }
 
+    @PutMapping("/me/change_email") public ResponseEntity<Void> changeEmail(
+            HttpServletRequest request) {
+
+        for(Cookie cookie: request.getCookies()) {
+            if(cookie.getName().equals("access-token")) {
+                //TODO: later
+                break;
+            }
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.ACCEPTED)
+                .body(null);
+    }
+
+
     //region Non-API Methods
     private String createCookie(String jwtoken) {
+
         ResponseCookie cookie = ResponseCookie
                 .from("access_token", jwtoken)
                 .httpOnly(true)

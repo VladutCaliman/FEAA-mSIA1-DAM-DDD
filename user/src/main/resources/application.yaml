@@ -2,7 +2,10 @@ spring:
   application:
     name: user
   datasource:
-    url: jdbc:sqlserver://${DB_HOST}:${DB_PORT};databaseName=${DB_NAME};encrypt=${DB_ENCRYPT};trustServerCertificate=${DB_TRUST_SERVER_CERTIFICATE}
+    url:  jdbc:sqlserver://${DB_HOST}:${DB_PORT};
+          databaseName=${DB_NAME};
+          encrypt=${DB_ENCRYPT};
+          trustServerCertificate=${DB_TRUST_SERVER_CERTIFICATE}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver

@@ -1,6 +1,7 @@
 package com.adam.user.shared;
 
 import com.adam.user.shared.exception.InvalidCredentialsException;
+import com.adam.user.shared.exception.UnableToChangeException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -42,6 +43,18 @@ import java.util.Map;
                 .badRequest()
                 .body(Map.of(
                         "error", "INVALID_CREDENTIALS",
+                        "message", ex.getMessage()
+                ));
+    }
+
+    @ExceptionHandler(UnableToChangeException.class)
+    public ResponseEntity<Map<String, String>> handleUnableToChange(
+            InvalidCredentialsException ex) {
+
+        return ResponseEntity
+                .badRequest()
+                .body(Map.of(
+                        "error", "INVALID_OPERATION",
                         "message", ex.getMessage()
                 ));
     }
