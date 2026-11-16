@@ -4,6 +4,7 @@ import com.adam.user.shared.exception.InvalidCredentialsException;
 import com.adam.user.shared.exception.UnableToChangeException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -55,6 +56,18 @@ import java.util.Map;
                 .badRequest()
                 .body(Map.of(
                         "error", "INVALID_OPERATION",
+                        "message", ex.getMessage()
+                ));
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<Map<String, String>> handleDeserialisation(
+            HttpMessageNotReadableException ex) {
+
+        return ResponseEntity
+                .badRequest()
+                .body(Map.of(
+                        "error", "INVALID_REQUEST_BODY",
                         "message", ex.getMessage()
                 ));
     }
